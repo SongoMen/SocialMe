@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const TopMenu = () => {
   return (
@@ -47,8 +48,18 @@ const TopMenu = () => {
         </svg>
         <h4>SocialMe</h4>
       </div>
-      <ul>
-        <li>x</li>
+
+      <ul className="header__buttons">
+        <li>
+          <Link to="/login">
+            <button className="login btn-outline">Log in</button>
+          </Link>
+        </li>
+        <li>
+          <Link to="/register">
+            <button className="login btn">Sign up</button>
+          </Link>
+        </li>
       </ul>
     </header>
   );

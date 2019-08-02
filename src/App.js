@@ -8,6 +8,7 @@ import {
 import { firebaseAuth } from "./components/auth";
 
 import LandingPage from "./components/landing-page/landing-page-container";
+import Login from "./components/login/login-container";
 
 function PrivateRoute({ component: Component, authed, ...rest }) {
   return (
@@ -106,6 +107,11 @@ class App extends Component {
         <div className="container">
           <Switch>
             <Route exact path="/" component={LandingPage} />
+            <PublicRoute
+              authed={this.state.authed}
+              path="/login"
+              component={Login}
+            />
           </Switch>
         </div>
       </Router>
