@@ -114,6 +114,11 @@ class App extends Component {
               path="/login"
               component={Login}
             />
+            <PublicRoute
+              authed={this.state.authed}
+              path="/register"
+              component={Register}
+            />
           </Switch>
         </div>
       </Router>

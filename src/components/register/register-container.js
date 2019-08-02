@@ -1,5 +1,5 @@
 import React from "react";
-import { login } from "../auth";
+import { auth } from "../auth";
 
 import TopMenu from "../landing-page/top-menu";
 
@@ -9,23 +9,44 @@ class Register extends React.Component {
     this.state = {
       msg: ""
     };
-    this.handleClick = this.handleClick.bind(this);
+    this.handleClickRegisterUser = this.handleClickRegisterUser.bind(this);
   }
-  handleClick(e) {
-    e.preventDefault();
-    login(this.email.value, this.password.value).catch(error => {
-      alert("Wrong Email or password");
-    });
+  handleClickRegisterUser(e) {
+    var re = /^(([^<>()\\.,;:\s@"]+(\.[^<>()\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (
+      this.password.value.length > 6 &&
+      re.test(String(this.email.value).toLowerCase())
+    ) {
+      localStorage.setItem("user", this.username.value);
+      auth(this.email.value, this.password.value, this.username.value);
+      this.setState({
+        msg: "Register Successful"
+      });
+    }
+    if (this.password.value.length < 6) {
+      alert("Password must have at least 6 characters");
+    }
+    if (re.test(String(this.email.value).toLowerCase()) === false) {
+      alert("wrong email adress");
+    }
   }
   render() {
     return (
-      <div className="login">
+      <div className="register">
         <TopMenu />
-        <div className="login__container">
-          <h3>Member Login</h3>
+        <div className="register__container">
+          <h3>Register</h3>
           <form>
             <div>
-              <label for="email">E-mail adress</label>
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                ref={username => (this.username = username)}
+              />
+            </div>
+            <div>
+              <label htmlFor="email">E-mail adress</label>
               <input
                 id="email"
                 type="text"
@@ -33,7 +54,7 @@ class Register extends React.Component {
               />
             </div>
             <div>
-              <label for="password">Password</label>
+              <label htmlFor="password">Password</label>
               <input
                 id="password"
                 type="password"
@@ -43,7 +64,7 @@ class Register extends React.Component {
             <button
               type="button"
               className="submit btn"
-              onClick={event => this.handleClick(event)}
+              onClick={event => this.handleClickRegisterUser(event)}
             >
               Log in
             </button>
@@ -53,4 +74,4 @@ class Register extends React.Component {
     );
   }
 }
-export default Login;
+export default Register;
