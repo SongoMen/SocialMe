@@ -9,6 +9,8 @@ import { firebaseAuth } from "./components/auth";
 
 import LandingPage from "./components/landing-page/landing-page-container";
 import Login from "./components/login/login-container";
+import Register from "./components/register/register-container";
+
 
 function PrivateRoute({ component: Component, authed, ...rest }) {
   return (

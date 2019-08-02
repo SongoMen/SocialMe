@@ -3,7 +3,7 @@ import { login } from "../auth";
 
 import TopMenu from "../landing-page/top-menu";
 
-class Login extends React.Component {
+class Register extends React.Component {
   constructor() {
     super();
     this.state = {
