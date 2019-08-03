@@ -30,9 +30,6 @@ export function auth(email, pw) {
       db.collection("users").doc(newUser.user.uid).set({
         email: email,
         username: username,
-        funds: "100000",
-        currentfunds: "100000",
-        positions: "0"
       })
         .catch(function (error) {
           console.error("Error writing document: ", error);

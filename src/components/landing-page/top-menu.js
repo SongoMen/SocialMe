@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { firebaseAuth } from "../auth";
 
 const TopMenu = () => {
+  const [logged, setUser] = useState(null);
+  function userCheck() {
+    firebaseAuth().onAuthStateChanged(user => {
+      if (user) {
+        setUser(true);
+      } else {
+        setUser(false);
+      }
+    });
+  }
+  userCheck();
   return (
     <header className="header">
       <div className="header__brand">
@@ -48,19 +60,24 @@ const TopMenu = () => {
         </svg>
         <h4>SocialMe</h4>
       </div>
-
-      <ul className="header__buttons">
-        <li>
-          <Link to="/login">
-            <button className="login btn-outline">Log in</button>
-          </Link>
-        </li>
-        <li>
-          <Link to="/register">
-            <button className="login btn">Sign up</button>
-          </Link>
-        </li>
-      </ul>
+      {logged === false ? (
+        <ul className="header__buttons">
+          <li>
+            <Link to="/login">
+              <button className="login btn-outline">Log in</button>
+            </Link>
+          </li>
+          <li>
+            <Link to="/register">
+              <button className="login btn">Sign up</button>
+            </Link>
+          </li>
+        </ul>
+      ) : (
+        <Link to="/dashboard">
+          <button className="login btn">Dashboard</button>
+        </Link>
+      )}
     </header>
   );
 };

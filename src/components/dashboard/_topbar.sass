@@ -1,0 +1,21 @@
+.topbar
+    display: flex
+    justify-content: flex-end
+    align-items: center
+    ul
+        list-style-type: none
+        margin: 0
+        padding: 0
+        li
+            padding: 10px
+            svg
+                width: 10%
+                background-color: $radius-color
+                padding: 5px
+                border-radius: 100%
+                stroke: $main-color
+                cursor: pointer
+                transition: all .2s
+                &:hover
+                    stroke: $radius-color
+                    background-color: $main-color

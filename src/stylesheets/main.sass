@@ -7,6 +7,7 @@
 
 @import '../components/dashboard/_dashboard'
 @import '../components/dashboard/_leftbar'
+@import '../components/dashboard/_topbar'
 
 @import '../components/login/_login'
 
@@ -18,10 +19,12 @@
 *
     box-sizing: border-box
     font-family: Catamaran
-    color: white
     letter-spacing: 1px
 html,body,#root,.container
     width: 100%
     height: 100%
     margin: 0
     background: $main-gradient
+    display: flex
+    justify-content: center
+    align-items: center
