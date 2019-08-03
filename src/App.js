@@ -11,6 +11,7 @@ import LandingPage from "./components/landing-page/landing-page-container";
 import Login from "./components/login/login-container";
 import Register from "./components/register/register-container";
 import Dashboard from "./components/dashboard/dashboard-container";
+import AddAccount from "./components/addAccount/AddAccount";
 
 function PrivateRoute({ component: Component, authed, ...rest }) {
   return (
@@ -133,6 +134,11 @@ class App extends Component {
               authed={this.state.authed}
               path="/dashboard"
               component={Dashboard}
+            />
+            <PrivateRoute
+              authed={this.state.authed}
+              path="/addaccount"
+              component={AddAccount}
             />
           </Switch>
         </div>

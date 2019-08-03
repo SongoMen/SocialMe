@@ -9,3 +9,71 @@
         width: 97%
         display: flex
         flex-direction: column
+        background-color: $panel-background-color
+
+@keyframes show-popup
+  0%
+    -webkit-transform: translate(-50%, -50%) scale(0.7)
+    transform: translate(-50%, -50%) scale(0.7)
+    opacity: 0
+
+  45%
+    -webkit-transform: translate(-50%, -50%) scale(1.05)
+    transform: translate(-50%, -50%) scale(1.05)
+    opacity: 1
+
+  80%
+    -webkit-transform: translate(-50%, -50%) scale(0.95)
+    transform: translate(-50%, -50%) scale(0.95)
+
+  100%
+    -webkit-transform: translate(-50%, -50%) scale(1)
+    transform: translate(-50%, -50%) scale(1)
+
+.popup
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: column
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    background-color: white
+    padding: 50px 100px
+    width: 40%
+    min-height: 250px
+    min-width: 350px
+    box-shadow: 0px 0px 55px 0px rgba(0,0,0,0.07)
+    text-align: center
+    animation: show-popup .3s
+    &__buttons
+        display: flex
+        flex-wrap: nowrap
+        margin-top: 20px 
+        .btn
+            margin: 0px 10px
+            &.instagram
+                background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)
+                &:hover
+                    box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.50)
+                    color: white
+            &.facebook
+                background-color: #3b5998
+                &:hover
+                    color: white
+                    box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.50)
+            &.twitter
+                background-color: #00aced
+                &:hover
+                    color: white
+                    box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.50)
+    &__close
+        position: absolute
+        right: 10px
+        top: 10px
+        width: 5%
+        cursor: pointer
+        transition: all .3s
+        &:hover
+            stroke: $main-color
