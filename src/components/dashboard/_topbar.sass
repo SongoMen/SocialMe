@@ -6,10 +6,15 @@
         list-style-type: none
         margin: 0
         padding: 0
+        display: inline-flex
         li
             padding: 10px
+        .topbar__newAccount
+            padding: 10px
+            display: flex
+            align-items: center
             svg
-                width: 10%
+                width: 30px
                 background-color: $radius-color
                 padding: 5px
                 border-radius: 100%
@@ -19,3 +24,26 @@
                 &:hover
                     stroke: $radius-color
                     background-color: $main-color
+    &__list 
+        position: relative
+        display: flex
+        align-items: center
+        img
+            width: 50px
+            padding: 3px
+            border-radius: 100%
+            transition: all .2s
+            cursor: pointer
+            &:hover
+                background-color: $radius-color
+    &__icon
+        width: 25px
+        display: flex
+        position: absolute
+        right: -6px
+        top: 15px
+        background-color: white
+        padding: 6px
+        border-radius: 100%
+        svg
+            width: 100%

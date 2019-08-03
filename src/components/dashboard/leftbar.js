@@ -4,7 +4,7 @@ const Leftbar = () => {
   function activeSection() {
     let splitSection = window.location.href.split("/");
     let sectionName = splitSection[splitSection.length - 1];
-    if (document.getElementById(sectionName.toLowerCase()) !== undefined) {
+    if (document.getElementById(sectionName.toLowerCase()) !== undefined && sectionName.toLowerCase() === "dashboard") {
       document.getElementById(sectionName.toLowerCase()).style.borderLeft =
         "2px solid #d31027";
       document.getElementsByTagName("svg")[1].style.stroke = "#d31027";
