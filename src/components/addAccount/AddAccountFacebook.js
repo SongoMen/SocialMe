@@ -4,6 +4,7 @@ import firebase from "firebase/app";
 let pagesTokes = [];
 let pagesNames = [];
 let pagesId = [];
+let pagesProfiles = [];
 
 const AddAccountFacebook = () => {
   let access_token = window.location.href.split("=")[1];
@@ -29,7 +30,7 @@ const AddAccountFacebook = () => {
       })
       .catch(err => {
         console.log(err);
-        setError(true)
+        setError(true);
       });
   }
   function handleClick(e) {
@@ -45,23 +46,57 @@ const AddAccountFacebook = () => {
   function buttonClick() {
     if (document.querySelectorAll(".active").length > 0) {
       for (let i = 0; i < document.querySelectorAll(".active").length; i++) {
-        console.log(document.querySelectorAll(".active")[i].id);
+        addInformations(
+          pagesId.indexOf(document.querySelectorAll(".active")[i].id),
+          document.querySelectorAll(".active")[i].id
+        );
       }
+      setTimeout(() => {
+        buttonDashboard()
+      }, 2000);
     }
   }
-  function buttonDashboard(){
-      window.location.href = "/dashboard"
+  function buttonDashboard() {
+    window.location.href = "/dashboard";
   }
-  function addInformations(i, id) {}
+  function addInformations(i, id) {
+    fetch(
+      `https://graph.facebook.com/v4.0/${id}/picture?access_token=${access_token}&format=json&method=get&pretty=0&redirect=false&suppress_http_code=1&transport=cors`
+    )
+      .then(res => res.json())
+      .then(result => {
+        pagesProfiles[i] = result.data.url;
+        console.log(result.data.url);
+      })
+      .then(() => {
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(user)
+          .collection("accounts")
+          .doc(pagesNames[i])
+          .set({
+            accessToken: pagesTokes[i],
+            profilePicture: pagesProfiles[i],
+            username: pagesNames[i],
+            social: "facebook"
+          })
+          .catch(error => {
+            console.log("Error getting document:", error);
+          });
+      });
+  }
   return (
     <div className="addAccount">
-        {error === true&&
+      {error === true && (
         <div className="popup">
-            <h2>Error</h2>
-            <h4>Please try again later</h4>
-            <button className="btn" onClick={buttonDashboard}>Dashboard</button>
+          <h2>Error</h2>
+          <h4>Please try again later</h4>
+          <button className="btn" onClick={buttonDashboard}>
+            Dashboard
+          </button>
         </div>
-        }
+      )}
       {popup === true && (
         <div className="popup">
           <h2>Choose Pages to add</h2>

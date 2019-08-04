@@ -20,7 +20,8 @@ const AddAccountInstagram = () => {
           .set({
             accessToken: access_token,
             profilePicture: result.data.profile_picture,
-            username: result.data.username
+            username: result.data.username,
+            social: "instagram"
           })
           .then(() => {
             window.location.href = "/dashboard";
