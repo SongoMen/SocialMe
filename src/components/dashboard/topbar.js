@@ -5,7 +5,6 @@ import {connect} from "react-redux";
 
 import {setPanel} from "../../actions/setPanel";
 import {getData} from "../../actions/setStats";
-import { types } from "@babel/core";
 
 let profilePictures = [];
 let usernames = [];
@@ -67,6 +66,8 @@ class Topbar extends React.Component {
           if (this.state.account !== undefined && this.state.account !== null) {
             this.props.getData();
           }
+          status = type[usernames.indexOf(cookies.get("account"))];
+          this.props.setPanel();
           var elems = document.querySelectorAll("ul .active");
 
           [].forEach.call(elems, function(el) {
@@ -96,12 +97,19 @@ class Topbar extends React.Component {
     this.getAccounts();
   }
   handleCheck(e) {
+    console.log(e.currentTarget.id);
     cookies.set("account", e.currentTarget.id, {path: "/"});
     this.getAccounts();
-    this.props.getData()
-    status = type[usernames.indexOf(cookies.get("account"))]
-    this.props.setPanel()
-      console.log(status)
+    this.props.getData();
+    status = type[usernames.indexOf(cookies.get("account"))];
+    this.props.setPanel();
+   /* fetch(
+      `https://api.instagram.com/v1/users/self/media/recent/?access_token=${
+        accessTokens[usernames.indexOf(cookies.get("account"))]
+      }`
+    )
+      .then((res) => res.json())
+      .then((result) => console.log(result));*/
   }
 
   render() {
@@ -156,7 +164,7 @@ class Topbar extends React.Component {
               <li
                 key={indx}
                 id={usernames[indx]}
-                className= {indx}
+                className={indx}
                 onClick={this.handleCheck.bind(this)}
               >
                 <div className="topbar__list">
