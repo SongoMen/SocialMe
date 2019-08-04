@@ -5,7 +5,9 @@ import Cookies from "universal-cookie";
 let profilePictures = [];
 let usernames = [];
 
+
 const cookies = new Cookies();
+
 export default class Topbar extends React.Component {
   constructor() {
     super();
@@ -55,9 +57,10 @@ export default class Topbar extends React.Component {
   handleCheck(e) {
     cookies.set("account", e.currentTarget.id, { path: "/dashboard" });
   }
-  componentDidMount(){
-    fetch("https://graph.facebook.com/oauth/access_token?client_id=2072731952831318&client_secret=335dc07b027e75f360b329654f1a517b&grant_type=client_credentials")
-    .then(res=>console.log(res))
+  componentDidMount() {
+    fetch(
+      "https://graph.facebook.com/oauth/access_token?client_id=2072731952831318&client_secret=335dc07b027e75f360b329654f1a517b&grant_type=client_credentials"
+    ).then(res => console.log(res));
   }
   render() {
     return (
@@ -87,12 +90,20 @@ export default class Topbar extends React.Component {
                 className="btn instagram"
                 onClick={() =>
                   (window.location.href =
-                    "https://api.instagram.com/oauth/authorize/?client_id=c3ef63a1c9de41a1b6032a7c39e586ae&redirect_uri=http://localhost:3000/addaccount&response_type=token")
+                    "https://api.instagram.com/oauth/authorize/?client_id=c3ef63a1c9de41a1b6032a7c39e586ae&redirect_uri=http://localhost:3000/addaccount&response_type=token&instagram")
                 }
               >
                 Instagram
               </button>
-              <button className="btn facebook">Facebook</button>
+              <button
+                className="btn facebook"
+                onClick={() =>
+                  (window.location.href =
+                    "https://www.facebook.com/v4.0/dialog/oauth?response_type=token&client_id=2072731952831318&redirect_uri=http://localhost:3000/addaccount&auth_type=rerequest&scope=public_profile%2Cmanage_pages%2Cpages_messaging%2Cpages_show_list%2Cread_insights%2Cread_audience_network_insights%2Cpages_manage_cta")
+                }
+              >
+                Facebook
+              </button>
               <button className="btn twitter">Twitter</button>
             </div>
           </div>

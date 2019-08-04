@@ -1,7 +1,7 @@
 import React from "react";
 import firebase from "firebase/app";
 
-const AddAccount = () => {
+const AddAccountInstagram = () => {
   let access_token = window.location.href.split("=")[1];
   let user = firebase.auth().currentUser.uid;
 
@@ -31,9 +31,6 @@ const AddAccount = () => {
       })
       .catch(err => console.log(err));
   }
-  setTimeout(() => {
-    window.location.href = "/dashboard";
-  }, 10000);
   return (
     <div className="addAccount">
       <svg width="38" height="38" viewBox="0 0 38 38" stroke="#fff">
@@ -58,4 +55,4 @@ const AddAccount = () => {
   );
 };
 
-export default AddAccount;
+export default AddAccountInstagram;
