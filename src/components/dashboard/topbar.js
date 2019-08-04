@@ -1,28 +1,27 @@
 import React from "react";
 import firebase from "firebase/app";
 import Cookies from "universal-cookie";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 
-import { InstagramPanel } from "../../actions/instagramPanel";
-import { FacebookPanel } from "../../actions/facebookPanel";
-import { getData } from "../../actions/setStats";
+import {setPanel} from "../../actions/setPanel";
+import {getData} from "../../actions/setStats";
+import { types } from "@babel/core";
 
 let profilePictures = [];
 let usernames = [];
 let type = [];
 let accessTokens = [];
 
-const mapStateToProps = state => ({
+let status;
+
+const mapStateToProps = (state) => ({
   ...state
 });
 
-const mapDispatchToProps = dispatch => ({
-  InstagramPanel: () => dispatch(InstagramPanel),
-  FacebookPanel: () => dispatch(FacebookPanel),
+const mapDispatchToProps = (dispatch) => ({
+  setPanel: () => dispatch(setPanel(status)),
   getData: () =>
-    dispatch(
-      getData(accessTokens[usernames.indexOf(cookies.get("account"))])
-    )
+    dispatch(getData(accessTokens[usernames.indexOf(cookies.get("account"))]))
 });
 
 const cookies = new Cookies();
@@ -54,8 +53,8 @@ class Topbar extends React.Component {
       .doc(user)
       .collection("accounts")
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           profilePictures[i] = doc.data()["profilePicture"];
           usernames[i] = doc.data()["username"];
           type[i] = doc.data()["social"];
@@ -64,33 +63,45 @@ class Topbar extends React.Component {
         });
       })
       .then(() => {
-        var elems = document.querySelectorAll("ul .active");
+        setTimeout(() => {
+          if (this.state.account !== undefined && this.state.account !== null) {
+            this.props.getData();
+          }
+          var elems = document.querySelectorAll("ul .active");
 
-        [].forEach.call(elems, function(el) {
-          el.className = el.className.replace(/active\b/, "");
-        });
+          [].forEach.call(elems, function(el) {
+            el.className = el.className.replace(/active\b/, "");
+          });
 
-        this.setState({
-          loader: true
-        });
-        if (document.getElementById(this.state.account) !== null)
-          document.getElementById(this.state.account).classList.add("active");
-      })
-      .then(()=>{
-        this.props.getData()
-      })
+          this.setState({
+            loader: true
+          });
+          if (document.getElementById(this.state.account) !== null)
+            document.getElementById(this.state.account).classList.add("active");
+        }, 1000);
+      });
   }
   componentWillMount() {
-    if (cookies.get("account") !== null || undefined) {
+    if (
+      cookies.get("account") !== null &&
+      cookies.get("account") !== undefined
+    ) {
       this.setState({
         account: cookies.get("account")
       });
+    } else {
+      status = "nothing";
+      this.props.setPanel();
     }
     this.getAccounts();
   }
   handleCheck(e) {
-    cookies.set("account", e.currentTarget.id, { path: "/dashboard" });
+    cookies.set("account", e.currentTarget.id, {path: "/"});
     this.getAccounts();
+    this.props.getData()
+    status = type[usernames.indexOf(cookies.get("account"))]
+    this.props.setPanel()
+      console.log(status)
   }
 
   render() {
@@ -108,7 +119,7 @@ class Topbar extends React.Component {
               className="popup__close"
               viewBox="0 0 24 24"
               onClick={function() {
-                this.setState({ popup: false });
+                this.setState({popup: false});
               }.bind(this)}
             >
               <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
@@ -145,11 +156,10 @@ class Topbar extends React.Component {
               <li
                 key={indx}
                 id={usernames[indx]}
+                className= {indx}
                 onClick={this.handleCheck.bind(this)}
               >
-                <div
-                  className="topbar__list"
-                >
+                <div className="topbar__list">
                   <img src={val} alt={usernames[indx]} />
                   <span className="topbar__icon">
                     {type[indx] === "instagram" && (

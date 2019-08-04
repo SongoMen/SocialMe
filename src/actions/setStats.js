@@ -23,16 +23,15 @@ export function getDataFailed(error) {
 }
 
 export function getData(token) {
-  return dispatch => {
+  return (dispatch) => {
     // set state to "loading"
-
     fetch(`https://api.instagram.com/v1/users/self/?access_token=${token}`)
-      .then(res => res.json())
-      .then(result => {
+      .then((res) => res.json())
+      .then((result) => {
         if (result.data.counts.followed_by !== undefined)
           dispatch(getDataDone(result.data.counts.followed_by));
       })
-      .catch(error => {
+      .catch((error) => {
         // set state for error
         dispatch(getDataFailed(error));
       });

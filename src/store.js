@@ -5,7 +5,7 @@ import thunk from "redux-thunk";
 function configureStore(state = { panel: "instagram" }) {
   return createStore(
     dashboardReducer,
-    { isLoading: true, isError: false, info: [],panel:"instagram" },
+    { isLoading: true, isError: false, info: [],panel:"" },
     applyMiddleware(thunk)
   );
 }

@@ -1,7 +1,9 @@
 import * as actions from "../actions/setStats";
+import * as panelactions from "../actions/setPanel";
+
 export default (state, action) => {
   switch (action.type) {
-    case "panel":
+    case panelactions.SET_PANEL_TYPE:
       return {
         panel: action.payload
       };

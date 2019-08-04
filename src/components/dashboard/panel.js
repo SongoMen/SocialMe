@@ -1,17 +1,15 @@
 import React from "react";
-import { connect } from "react-redux";
-import { InstagramPanel } from "../../actions/instagramPanel";
-import { FacebookPanel } from "../../actions/facebookPanel";
+import {connect} from "react-redux";
+import {setPanel} from "../../actions/setPanel";
 
 import Topbar from "./topbar";
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state
 });
 
-const mapDispatchToProps = dispatch => ({
-  InstagramPanel: () => dispatch(InstagramPanel),
-  FacebookPanel: () => dispatch(FacebookPanel)
+const mapDispatchToProps = (dispatch) => ({
+  setPanel: () => dispatch(setPanel)
 });
 
 class Panel extends React.Component {
@@ -20,8 +18,7 @@ class Panel extends React.Component {
       <div className="panel">
         <Topbar />
         <div className="panel-container">
-          {this.props.panel === "instagram" &&
-          this.props.isLoading === false ? (
+          {this.props.panel === "instagram" && this.props.isLoading === false && (
             <div className="instagram">
               <h1>Instagram Overview</h1>
               <div className="instagram__row">
@@ -41,7 +38,8 @@ class Panel extends React.Component {
                 </div>
               </div>
             </div>
-          ) : (
+          )}
+          {this.props.isLoading === true && this.props.panel !== "nothing" && (
             <svg
               className="loader"
               width="38"
@@ -65,6 +63,9 @@ class Panel extends React.Component {
                 </g>
               </g>
             </svg>
+          )}
+          {this.props.panel === "nothing" && (
+            <h3 className="error">Please first choose an account at the top right corner.</h3>
           )}
         </div>
       </div>
