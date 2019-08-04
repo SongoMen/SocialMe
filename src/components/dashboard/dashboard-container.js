@@ -1,18 +1,20 @@
 import React from 'react'
 
 import Leftbar from './leftbar'
-import Topbar from './topbar'
+import Panel from './panel'
 
-export default class Dashboard extends React.Component{
+class Dashboard extends React.Component{
+    componentDidMount(){
+        console.log(this.props.load)
+    }
 
     render(){
         return(
             <div className="dashboard">
                 <Leftbar/>
-                <div className="panel">
-                    <Topbar/>
-                </div>
+                <Panel/>
             </div>
         )
     }
 }
+export default Dashboard
