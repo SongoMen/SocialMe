@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "socialanalytics-94264"
+    "default": "socialanalytics-94264",
+    "social": "socialanalytics-94264"
   }
 }
