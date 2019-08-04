@@ -1,20 +1,40 @@
 import React from "react";
 import firebase from "firebase/app";
 import Cookies from "universal-cookie";
+import { connect } from "react-redux";
+
+import { InstagramPanel } from "../../actions/instagramPanel";
+import { FacebookPanel } from "../../actions/facebookPanel";
+import { getData } from "../../actions/setStats";
 
 let profilePictures = [];
 let usernames = [];
 let type = [];
+let accessTokens = [];
+
+const mapStateToProps = state => ({
+  ...state
+});
+
+const mapDispatchToProps = dispatch => ({
+  InstagramPanel: () => dispatch(InstagramPanel),
+  FacebookPanel: () => dispatch(FacebookPanel),
+  getData: () =>
+    dispatch(
+      getData(accessTokens[usernames.indexOf(cookies.get("account"))])
+    )
+});
 
 const cookies = new Cookies();
 
-export default class Topbar extends React.Component {
+class Topbar extends React.Component {
   constructor() {
     super();
     this.state = {
       loader: "",
       account: "",
-      popup: ""
+      popup: "",
+      followers: ""
     };
   }
   addAccount() {
@@ -39,6 +59,7 @@ export default class Topbar extends React.Component {
           profilePictures[i] = doc.data()["profilePicture"];
           usernames[i] = doc.data()["username"];
           type[i] = doc.data()["social"];
+          accessTokens[i] = doc.data()["accessToken"];
           i++;
         });
       })
@@ -54,7 +75,10 @@ export default class Topbar extends React.Component {
         });
         if (document.getElementById(this.state.account) !== null)
           document.getElementById(this.state.account).classList.add("active");
-      });
+      })
+      .then(()=>{
+        this.props.getData()
+      })
   }
   componentWillMount() {
     if (cookies.get("account") !== null || undefined) {
@@ -68,11 +92,7 @@ export default class Topbar extends React.Component {
     cookies.set("account", e.currentTarget.id, { path: "/dashboard" });
     this.getAccounts();
   }
-  componentDidMount() {
-    fetch(
-      "https://graph.facebook.com/oauth/access_token?client_id=2072731952831318&client_secret=335dc07b027e75f360b329654f1a517b&grant_type=client_credentials"
-    ).then(res => console.log(res));
-  }
+
   render() {
     return (
       <div className="topbar">
@@ -101,7 +121,7 @@ export default class Topbar extends React.Component {
                 className="btn instagram"
                 onClick={() =>
                   (window.location.href =
-                    "https://api.instagram.com/oauth/authorize/?client_id=c3ef63a1c9de41a1b6032a7c39e586ae&redirect_uri=http://localhost:3000/addaccountinstagram&response_type=token&instagram")
+                    "https://api.instagram.com/oauth/authorize/?client_id=c3ef63a1c9de41a1b6032a7c39e586ae&redirect_uri=http://localhost:3000/addaccountinstagram&response_type=token&instagram&scope=public_content")
                 }
               >
                 Instagram
@@ -127,7 +147,9 @@ export default class Topbar extends React.Component {
                 id={usernames[indx]}
                 onClick={this.handleCheck.bind(this)}
               >
-                <div className="topbar__list">
+                <div
+                  className="topbar__list"
+                >
                   <img src={val} alt={usernames[indx]} />
                   <span className="topbar__icon">
                     {type[indx] === "instagram" && (
@@ -226,3 +248,7 @@ export default class Topbar extends React.Component {
     );
   }
 }
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Topbar);

@@ -1,8 +1,13 @@
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import dashboardReducer from "./reducers/dashboardReducer";
+import thunk from "redux-thunk";
 
-function configureStore(state = { load: true }) {
-  return createStore(dashboardReducer,state);
+function configureStore(state = { panel: "instagram" }) {
+  return createStore(
+    dashboardReducer,
+    { isLoading: false, isError: false, info: [],panel:"instagram" },
+    applyMiddleware(thunk)
+  );
 }
 
 export default configureStore;
