@@ -10,6 +10,7 @@ let profilePictures = [];
 let usernames = [];
 let type = [];
 let accessTokens = [];
+let pagesId = []
 
 let status;
 
@@ -25,7 +26,7 @@ const mapDispatchToProps = dispatch => ({
     ),
   getDataFacebook: () =>
     dispatch(
-      getDataFacebook(accessTokens[usernames.indexOf(cookies.get("account"))])
+      getDataFacebook(pagesId[usernames.indexOf(cookies.get("account"))],accessTokens[usernames.indexOf(cookies.get("account"))])
     )
 });
 
@@ -64,6 +65,7 @@ class Topbar extends React.Component {
           usernames[i] = doc.data()["username"];
           type[i] = doc.data()["social"];
           accessTokens[i] = doc.data()["accessToken"];
+          pagesId[i] = doc.data()["id"];
           i++;
         });
       })

@@ -47,13 +47,12 @@ export function getDataInstagram(token) {
   };
 }
 
-export function getDataFacebook(token) {
-  console.log(token);
+export function getDataFacebook(id,token) {
   return dispatch => {
     // set state to "loading"
     dispatch(getDataRequested());
     fetch(
-      `https://graph.facebook.com/v4.0/1867667820166462?fields=insights.metric(page_fans,page_impressions,page_actions_post_reactions_total)&access_token=${token}&debug=all&format=json&method=get&pretty=0&suppress_http_code=1&transport=cors`
+      `https://graph.facebook.com/v4.0/${id}?fields=insights.metric(page_fans,page_impressions,page_actions_post_reactions_total)&access_token=${token}&debug=all&format=json&method=get&pretty=0&suppress_http_code=1&transport=cors`
     )
       .then(res => res.json())
       .then(result => {
