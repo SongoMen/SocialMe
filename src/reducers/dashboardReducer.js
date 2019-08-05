@@ -6,11 +6,11 @@ export default (state, action) => {
     case panelactions.SET_PANEL_TYPE:
       return { ...state, panel: action.payload };
     case actions.GET_DATA_REQUESTED:
-      return { ...state, isLoading: true };
+      return { ...state, isError: false, isLoading: true };
     case actions.GET_DATA_DONE_FACEBOOK:
-      return { ...state, isLoading: false, facebookInfo: action.payload };
+      return { ...state, isError: false, isLoading: false, facebookInfo: action.payload };
     case actions.GET_DATA_DONE_INSTAGRAM:
-      return { ...state, isLoading: false, instagramInfo: action.payload };
+      return { ...state, isError: false, isLoading: false, instagramInfo: action.payload };
     case actions.GET_DATA_FAILED:
       return { ...state, isLoading: false, isError: true };
     default:
