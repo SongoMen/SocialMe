@@ -57,7 +57,7 @@ export function getDataFacebook(id,token) {
       .then(res => res.json())
       .then(result => {
         if (result.insights !== undefined)
-          dispatch(getDataDoneFacebook(result.insights.data[0].values));
+          dispatch(getDataDoneFacebook(result.insights.data));
         else dispatch(getDataFailed("err"));
       })
       .catch(error => {
