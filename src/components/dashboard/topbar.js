@@ -1,10 +1,10 @@
 import React from "react";
 import firebase from "firebase/app";
 import Cookies from "universal-cookie";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
-import {setPanel} from "../../actions/setPanel";
-import {getData} from "../../actions/setStats";
+import { setPanel } from "../../actions/setPanel";
+import { getDataInstagram, getDataFacebook } from "../../actions/setStats";
 
 let profilePictures = [];
 let usernames = [];
@@ -13,14 +13,20 @@ let accessTokens = [];
 
 let status;
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   ...state
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   setPanel: () => dispatch(setPanel(status)),
-  getData: () =>
-    dispatch(getData(accessTokens[usernames.indexOf(cookies.get("account"))]))
+  getDataInstagram: () =>
+    dispatch(
+      getDataInstagram(accessTokens[usernames.indexOf(cookies.get("account"))])
+    ),
+  getDataFacebook: () =>
+    dispatch(
+      getDataFacebook(accessTokens[usernames.indexOf(cookies.get("account"))])
+    )
 });
 
 const cookies = new Cookies();
@@ -52,8 +58,8 @@ class Topbar extends React.Component {
       .doc(user)
       .collection("accounts")
       .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
+      .then(snapshot => {
+        snapshot.forEach(doc => {
           profilePictures[i] = doc.data()["profilePicture"];
           usernames[i] = doc.data()["username"];
           type[i] = doc.data()["social"];
@@ -62,24 +68,28 @@ class Topbar extends React.Component {
         });
       })
       .then(() => {
-        setTimeout(() => {
-          if (this.state.account !== undefined && this.state.account !== null) {
-            this.props.getData();
+        if (this.state.account !== undefined && this.state.account !== null) {
+          if (type[usernames.indexOf(cookies.get("account"))] === "instagram")
+            this.props.getDataInstagram();
+          else if (
+            type[usernames.indexOf(cookies.get("account"))] === "facebook"
+          ){
+            this.props.getDataFacebook();
           }
           status = type[usernames.indexOf(cookies.get("account"))];
           this.props.setPanel();
-          var elems = document.querySelectorAll("ul .active");
+        }
+        var elems = document.querySelectorAll("ul .active");
 
-          [].forEach.call(elems, function(el) {
-            el.className = el.className.replace(/active\b/, "");
-          });
+        [].forEach.call(elems, function(el) {
+          el.className = el.className.replace(/active\b/, "");
+        });
 
-          this.setState({
-            loader: true
-          });
-          if (document.getElementById(this.state.account) !== null)
-            document.getElementById(this.state.account).classList.add("active");
-        }, 1000);
+        this.setState({
+          loader: true
+        });
+        if (document.getElementById(this.state.account) !== null)
+          document.getElementById(this.state.account).classList.add("active");
       });
   }
   componentWillMount() {
@@ -97,13 +107,13 @@ class Topbar extends React.Component {
     this.getAccounts();
   }
   handleCheck(e) {
-    console.log(e.currentTarget.id);
-    cookies.set("account", e.currentTarget.id, {path: "/"});
+    cookies.set("account", e.currentTarget.id, { path: "/" });
     this.getAccounts();
-    this.props.getData();
-    status = type[usernames.indexOf(cookies.get("account"))];
-    this.props.setPanel();
-   /* fetch(
+    if (type[usernames.indexOf(cookies.get("account"))] === "instagram")
+      this.props.getDataInstagram();
+    else if (type[usernames.indexOf(cookies.get("account"))] === "facebook")
+      this.props.getDataFacebook();
+    /* fetch(
       `https://api.instagram.com/v1/users/self/media/recent/?access_token=${
         accessTokens[usernames.indexOf(cookies.get("account"))]
       }`
@@ -127,7 +137,7 @@ class Topbar extends React.Component {
               className="popup__close"
               viewBox="0 0 24 24"
               onClick={function() {
-                this.setState({popup: false});
+                this.setState({ popup: false });
               }.bind(this)}
             >
               <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />

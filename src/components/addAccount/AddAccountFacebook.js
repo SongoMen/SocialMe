@@ -66,7 +66,6 @@ const AddAccountFacebook = () => {
       .then(res => res.json())
       .then(result => {
         pagesProfiles[i] = result.data.url;
-        console.log(result.data.url);
       })
       .then(() => {
         firebase
@@ -79,7 +78,8 @@ const AddAccountFacebook = () => {
             accessToken: pagesTokes[i],
             profilePicture: pagesProfiles[i],
             username: pagesNames[i],
-            social: "facebook"
+            social: "facebook",
+            id: pagesId[i]
           })
           .catch(error => {
             console.log("Error getting document:", error);
