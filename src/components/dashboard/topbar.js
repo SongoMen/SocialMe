@@ -3,14 +3,14 @@ import firebase from "firebase/app";
 import Cookies from "universal-cookie";
 import { connect } from "react-redux";
 
-import { setPanel } from "../../actions/setPanel";
+import { setPanel, setAcces, setType, setUser } from "../../actions/setPanel";
 import { getDataInstagram, getDataFacebook } from "../../actions/setStats";
 
 let profilePictures = [];
 let usernames = [];
 let type = [];
 let accessTokens = [];
-let pagesId = []
+let pagesId = [];
 
 let status;
 
@@ -26,8 +26,16 @@ const mapDispatchToProps = dispatch => ({
     ),
   getDataFacebook: () =>
     dispatch(
-      getDataFacebook(pagesId[usernames.indexOf(cookies.get("account"))],accessTokens[usernames.indexOf(cookies.get("account"))])
-    )
+      getDataFacebook(
+        pagesId[usernames.indexOf(cookies.get("account"))],
+        accessTokens[usernames.indexOf(cookies.get("account"))]
+      )
+    ),
+  setAcces: () =>
+    dispatch(setAcces(accessTokens[usernames.indexOf(cookies.get("account"))])),
+  setType: () =>
+    dispatch(setType(type[usernames.indexOf(cookies.get("account"))])),
+  setUser: () => dispatch(setUser(cookies.get("account")))
 });
 
 const cookies = new Cookies();
@@ -75,7 +83,7 @@ class Topbar extends React.Component {
             this.props.getDataInstagram();
           else if (
             type[usernames.indexOf(cookies.get("account"))] === "facebook"
-          ){
+          ) {
             this.props.getDataFacebook();
           }
           status = type[usernames.indexOf(cookies.get("account"))];
@@ -102,6 +110,11 @@ class Topbar extends React.Component {
       this.setState({
         account: cookies.get("account")
       });
+      setTimeout(() => {
+        this.props.setAcces();
+        this.props.setType();
+        this.props.setUser();
+      }, 1000);
     } else {
       status = "nothing";
       this.props.setPanel();
@@ -111,6 +124,12 @@ class Topbar extends React.Component {
   handleCheck(e) {
     cookies.set("account", e.currentTarget.id, { path: "/" });
     this.getAccounts();
+    setTimeout(() => {
+      this.props.setAcces();
+      this.props.setType();
+      this.props.setUser();
+    }, 500);
+
     if (type[usernames.indexOf(cookies.get("account"))] === "instagram")
       this.props.getDataInstagram();
     else if (type[usernames.indexOf(cookies.get("account"))] === "facebook")
@@ -166,7 +185,6 @@ class Topbar extends React.Component {
               >
                 Facebook
               </button>
-              <button className="btn twitter">Twitter</button>
             </div>
           </div>
         )}
