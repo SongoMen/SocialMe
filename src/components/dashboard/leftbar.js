@@ -4,7 +4,10 @@ const Leftbar = () => {
   function activeSection() {
     let splitSection = window.location.href.split("/");
     let sectionName = splitSection[splitSection.length - 1];
-    if (document.getElementById(sectionName.toLowerCase()) !== undefined && sectionName.toLowerCase() === "dashboard") {
+    if (
+      document.getElementById(sectionName.toLowerCase()) !== undefined &&
+      sectionName.toLowerCase() === "dashboard"
+    ) {
       document.getElementById(sectionName.toLowerCase()).style.borderLeft =
         "2px solid #d31027";
       document.getElementsByTagName("svg")[1].style.stroke = "#d31027";
@@ -14,26 +17,22 @@ const Leftbar = () => {
     activeSection();
   }, 200);
 
+  setTimeout(() => {
+    var btn = document.querySelector(".menu");
+
+    btn.addEventListener("click", function() {
+      this.classList.toggle("activeMenu");
+      this.classList.toggle("not-active");
+    });
+  }, 500);
+
   return (
     <div className="leftbar">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-        <path
-          fill="none"
-          strokeLinejoin="round"
-          strokeMiterlimit="10"
-          strokeWidth="4"
-          d="M2 14h60M2 32h36"
-          data-name="layer2"
-        />
-        <path
-          fill="none"
-          strokeLinejoin="round"
-          strokeMiterlimit="10"
-          strokeWidth="4"
-          d="M2 50h60"
-          data-name="layer1"
-        />
-      </svg>
+        <div className="menu not-active">
+          <span />
+          <span />
+          <span />
+        </div>
       <ul>
         <li id="dashboard">
           <svg
@@ -53,7 +52,6 @@ const Leftbar = () => {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
-        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"

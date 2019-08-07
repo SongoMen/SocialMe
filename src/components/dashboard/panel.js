@@ -60,7 +60,7 @@ class Panel extends React.Component {
       .doc(this.props.name)
       .get()
       .then(doc => {
-        if (doc.data()["goal"] !== undefined) {
+        if (doc.data() !== undefined) {
           this.setState({
             goal: doc.data()["goal"]
           });
@@ -96,6 +96,12 @@ class Panel extends React.Component {
           console.log("Error getting document:", error);
         });
     }
+  }
+  deleteAccount(){
+    let user = firebase.auth().currentUser.uid;
+    firebase.firestore().collection("users").doc(user).collection("accounts").doc(this.props.name).delete().then(()=>{
+      window.location.href="/dashboard"
+    })
   }
   render() {
     return (
@@ -274,6 +280,8 @@ class Panel extends React.Component {
                     )}
                   </div>
                 </div>
+                <button className="btn delete" onClick={()=>this.deleteAccount()}>DELETE THIS ACCOUNT</button>
+
               </div>
             )}
           {this.props.isError === true && (

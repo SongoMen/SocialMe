@@ -102,7 +102,7 @@ class Topbar extends React.Component {
           document.getElementById(this.state.account).classList.add("active");
       });
   }
-  componentWillMount() {
+  componentDidMount() {
     if (
       cookies.get("account") !== null &&
       cookies.get("account") !== undefined
@@ -119,6 +119,13 @@ class Topbar extends React.Component {
       status = "nothing";
       this.props.setPanel();
     }
+    setTimeout(() => {
+    if(!usernames.includes(cookies.get("account"))){
+      status = "nothing";
+      this.props.setPanel();
+    }
+  }, 2000);
+
     this.getAccounts();
   }
   handleCheck(e) {

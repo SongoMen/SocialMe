@@ -51,9 +51,6 @@ const AddAccountFacebook = () => {
           document.querySelectorAll(".active")[i].id
         );
       }
-      setTimeout(() => {
-        buttonDashboard()
-      }, 2000);
     }
   }
   function buttonDashboard() {
@@ -74,15 +71,45 @@ const AddAccountFacebook = () => {
           .doc(user)
           .collection("accounts")
           .doc(pagesNames[i])
-          .set({
-            accessToken: pagesTokes[i],
-            profilePicture: pagesProfiles[i],
-            username: pagesNames[i],
-            social: "facebook",
-            id: pagesId[i]
-          })
-          .catch(error => {
-            console.log("Error getting document:", error);
+          .get()
+          .then(doc => {
+            if (doc.exists) {
+              firebase
+                .firestore()
+                .collection("users")
+                .doc(user)
+                .collection("accounts")
+                .doc(pagesNames[i])
+                .update({
+                  accessToken: pagesTokes[i],
+                  profilePicture: pagesProfiles[i],
+                  username: pagesNames[i],
+                  social: "facebook",
+                  id: pagesId[i]
+                })
+                .then(()=>buttonDashboard())
+                .catch(error => {
+                  console.log("Error getting document:", error);
+                });
+            } else {
+              firebase
+                .firestore()
+                .collection("users")
+                .doc(user)
+                .collection("accounts")
+                .doc(pagesNames[i])
+                .set({
+                  accessToken: pagesTokes[i],
+                  profilePicture: pagesProfiles[i],
+                  username: pagesNames[i],
+                  social: "facebook",
+                  id: pagesId[i]
+                })
+                .then(()=>buttonDashboard())
+                .catch(error => {
+                  console.log("Error getting document:", error);
+                });
+            }
           });
       });
   }
