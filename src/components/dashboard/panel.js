@@ -51,25 +51,30 @@ class Panel extends React.Component {
 
   getGoal() {
     let user = firebase.auth().currentUser.uid;
-
-    firebase
-      .firestore()
-      .collection("users")
-      .doc(user)
-      .collection("accounts")
-      .doc(this.props.name)
-      .get()
-      .then(doc => {
-        if (doc.data() !== undefined && doc.data()["goal"] !== "" && doc.data()["goal"] !== undefined) {
-          this.setState({
-            goal: doc.data()["goal"]
-          });
-        } else {
-          this.setState({
-            goal: "nothing"
-          });
-        }
-      });
+    if (this.props.name !== undefined) {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(user)
+        .collection("accounts")
+        .doc(this.props.name)
+        .get()
+        .then(doc => {
+          if (
+            doc.data() !== undefined &&
+            doc.data()["goal"] !== "" &&
+            doc.data()["goal"] !== undefined
+          ) {
+            this.setState({
+              goal: doc.data()["goal"]
+            });
+          } else {
+            this.setState({
+              goal: "nothing"
+            });
+          }
+        });
+    }
   }
   reLogin() {
     if (this.props.type === "instagram")
@@ -154,7 +159,7 @@ class Panel extends React.Component {
           }
         }
         if (this.props.type === "facebook") {
-          if (this.state.likes + 10>= this.state.goal) {
+          if (this.state.likes + 10 >= this.state.goal) {
             firebase
               .firestore()
               .collection("users")
@@ -245,7 +250,7 @@ class Panel extends React.Component {
                   {this.state.goal && this.state.goal !== "nothing" && (
                     <div>
                       <svg
-                        className="icon"
+                        className="icon goal"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                       >
@@ -324,7 +329,7 @@ class Panel extends React.Component {
                   </div>
                   <div className="box">
                     <svg
-                      className="icon"
+                      className="icon impressions"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                     >
@@ -394,7 +399,7 @@ class Panel extends React.Component {
                     {this.state.goal && this.state.goal !== "nothing" && (
                       <div>
                         <svg
-                          className="icon"
+                          className="icon goal"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                         >

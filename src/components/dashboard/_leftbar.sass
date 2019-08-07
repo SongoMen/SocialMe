@@ -11,6 +11,9 @@
     transition: all .6s
     h4
       display: none
+      user-select: none
+      font-weight: 500
+      transition: all .3s
     &.active
       width: 8%
       svg
@@ -18,6 +21,7 @@
         margin-right: 20px
       h4
         display: block
+        white-space: nowrap
     svg
         stroke: $inactive-color
         width: 40%
@@ -29,13 +33,21 @@
         margin: 0
         margin-top: 60px
         li
-            width: 100%
-            display: flex
-            justify-content: center
-            min-height: 40px
+          width: 100%
+          display: flex
+          justify-content: center
+          min-height: 40px
+          margin-bottom: 40px
+          align-items: center
+          cursor: pointer
+          svg
+              width: 25px
+              cursor: pointer
+              transition: all .3s
+          &:hover
+            color: $main-color
             svg
-                width: 25px
-                cursor: pointer
+              stroke: $main-color!important
     &__logout
         position: absolute
         transition: all .5s

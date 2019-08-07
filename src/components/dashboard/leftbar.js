@@ -23,17 +23,17 @@ const Leftbar = () => {
     btn.addEventListener("click", function() {
       this.classList.toggle("activeMenu");
       this.classList.toggle("not-active");
-      document.getElementById("leftbar").classList.toggle("active")
+      document.getElementById("leftbar").classList.toggle("active");
     });
   }, 500);
 
   return (
     <div className="leftbar" id="leftbar">
-        <div className="menu not-active">
-          <span />
-          <span />
-          <span />
-        </div>
+      <div className="menu not-active">
+        <span />
+        <span />
+        <span />
+      </div>
       <ul>
         <li id="dashboard">
           <svg
@@ -49,6 +49,24 @@ const Leftbar = () => {
             <path d="M21.21 15.89A10 10 0 118 2.83M22 12A10 10 0 0012 2v10z" />
           </svg>
           <h4>Dashboard</h4>
+        </li>
+        <li>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="18" y1="20" x2="18" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="14" />
+          </svg>
+          <h4>Past Data</h4>
         </li>
       </ul>
       <svg
