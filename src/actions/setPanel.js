@@ -4,7 +4,6 @@ export const SET_ACCES_TOKEN = "SET_ACCES_TOKEN";
 export const SET_USERNAME = "SET_USERNAME";
 
 export function setPanel(paneltype) {
-  console.log(paneltype)
   return {
     type: SET_PANEL_TYPE,
     payload: paneltype

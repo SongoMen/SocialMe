@@ -36,7 +36,7 @@ class Panel extends React.Component {
     }
     if (prevProps.name !== this.props.name) {
       setTimeout(() => {
-        this.getGoal();
+        this.checkGoal();
       }, 1000);
       this.setState({
         goal: ""
@@ -45,7 +45,7 @@ class Panel extends React.Component {
   }
   componentDidMount() {
     setTimeout(() => {
-      this.getGoal();
+      this.checkGoal();
     }, 1000);
   }
 
@@ -60,7 +60,7 @@ class Panel extends React.Component {
       .doc(this.props.name)
       .get()
       .then(doc => {
-        if (doc.data() !== undefined) {
+        if (doc.data() !== undefined && doc.data()["goal"] !== "" && doc.data()["goal"] !== undefined) {
           this.setState({
             goal: doc.data()["goal"]
           });
@@ -82,7 +82,7 @@ class Panel extends React.Component {
   setGoalFacebook() {
     let user = firebase.auth().currentUser.uid;
     let goal = document.getElementById("goal").value;
-    if (this.state.likes < goal) {
+    if (this.state.likes < goal && this.props.type === "facebook") {
       firebase
         .firestore()
         .collection("users")
@@ -92,16 +92,85 @@ class Panel extends React.Component {
         .update({
           goal: goal
         })
+        .then(() => {
+          this.checkGoal();
+        })
+        .catch(error => {
+          console.log("Error getting document:", error);
+        });
+    } else if (
+      this.props.instagramInfo < goal &&
+      this.props.type === "instagram"
+    ) {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(user)
+        .collection("accounts")
+        .doc(this.props.name)
+        .update({
+          goal: goal
+        })
+        .then(() => {
+          this.checkGoal();
+        })
         .catch(error => {
           console.log("Error getting document:", error);
         });
     }
   }
-  deleteAccount(){
+  deleteAccount() {
     let user = firebase.auth().currentUser.uid;
-    firebase.firestore().collection("users").doc(user).collection("accounts").doc(this.props.name).delete().then(()=>{
-      window.location.href="/dashboard"
-    })
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(user)
+      .collection("accounts")
+      .doc(this.props.name)
+      .delete()
+      .then(() => {
+        window.location.href = "/dashboard";
+      });
+  }
+  checkGoal() {
+    let user = firebase.auth().currentUser.uid;
+    this.getGoal();
+    setTimeout(() => {
+      if (this.state.goal !== "nothing" && this.state.goal !== "") {
+        if (this.props.type === "instagram") {
+          if (this.state.instagramInfo >= this.state.goal) {
+            firebase
+              .firestore()
+              .collection("users")
+              .doc(user)
+              .collection("accounts")
+              .doc(this.props.name)
+              .update({
+                goal: undefined
+              })
+              .catch(error => {
+                console.log("Error getting document:", error);
+              });
+          }
+        }
+        if (this.props.type === "facebook") {
+          if (this.state.likes + 10>= this.state.goal) {
+            firebase
+              .firestore()
+              .collection("users")
+              .doc(user)
+              .collection("accounts")
+              .doc(this.props.name)
+              .update({
+                goal: ""
+              })
+              .catch(error => {
+                console.log("Error getting document:", error);
+              });
+          }
+        }
+      }
+    }, 1000);
   }
   render() {
     return (
@@ -129,6 +198,71 @@ class Panel extends React.Component {
                   </svg>
                   <h1>{this.props.instagramInfo}</h1>
                   <h4>Total Followers</h4>
+                </div>
+                <div className="box">
+                  {this.state.goal === "" && (
+                    <svg
+                      className="loader"
+                      width="38"
+                      height="38"
+                      viewBox="0 0 38 38"
+                      stroke="#fff"
+                    >
+                      <g fill="none" fillRule="evenodd">
+                        <g transform="translate(1 1)" strokeWidth="2">
+                          <circle strokeOpacity="0.5" cx="18" cy="18" r="18" />
+                          <path d="M36 18c0-9.94-8.06-18-18-18">
+                            <animateTransform
+                              attributeName="transform"
+                              type="rotate"
+                              from="0 18 18"
+                              to="360 18 18"
+                              dur="1s"
+                              repeatCount="indefinite"
+                            />
+                          </path>
+                        </g>
+                      </g>
+                    </svg>
+                  )}
+                  {this.state.goal === "nothing" && (
+                    <div>
+                      <h2>Set you followers goal !</h2>
+                      <input
+                        type="text"
+                        id="goal"
+                        placeholder="What's your goal ?"
+                        className="box__goal"
+                      />
+                      <button
+                        className="btn"
+                        onClick={() => this.setGoalFacebook()}
+                      >
+                        SET
+                      </button>
+                    </div>
+                  )}
+                  {this.state.goal && this.state.goal !== "nothing" && (
+                    <div>
+                      <svg
+                        className="icon"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <g data-name="Layer 2">
+                          <g data-name="flag">
+                            <polyline points="24 24 0 24 0 0" opacity="0" />
+                            <path d="M19.27 4.68a1.79 1.79 0 0 0-1.6-.25 7.53 7.53 0 0 1-2.17.28 8.54 8.54 0 0 1-3.13-.78A10.15 10.15 0 0 0 8.5 3c-2.89 0-4 1-4.2 1.14a1 1 0 0 0-.3.72V20a1 1 0 0 0 2 0v-4.3a6.28 6.28 0 0 1 2.5-.41 8.54 8.54 0 0 1 3.13.78 10.15 10.15 0 0 0 3.87.93 7.66 7.66 0 0 0 3.5-.7 1.74 1.74 0 0 0 1-1.55V6.11a1.77 1.77 0 0 0-.73-1.43zM18 14.59a6.32 6.32 0 0 1-2.5.41 8.36 8.36 0 0 1-3.13-.79 10.34 10.34 0 0 0-3.87-.92 9.51 9.51 0 0 0-2.5.29V5.42A6.13 6.13 0 0 1 8.5 5a8.36 8.36 0 0 1 3.13.79 10.34 10.34 0 0 0 3.87.92 9.41 9.41 0 0 0 2.5-.3z" />
+                          </g>
+                        </g>
+                      </svg>
+                      <h1>{this.state.goal}</h1>
+                      <h4>
+                        You are {this.state.goal - this.props.instagramInfo}{" "}
+                        likes away from your goal !
+                      </h4>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -280,8 +414,6 @@ class Panel extends React.Component {
                     )}
                   </div>
                 </div>
-                <button className="btn delete" onClick={()=>this.deleteAccount()}>DELETE THIS ACCOUNT</button>
-
               </div>
             )}
           {this.props.isError === true && (
@@ -291,6 +423,11 @@ class Panel extends React.Component {
                 Try to login again
               </button>
             </div>
+          )}
+          {this.props.panel !== "nothing" && this.props.panel !== "" && (
+            <button className="btn delete" onClick={() => this.deleteAccount()}>
+              DELETE THIS ACCOUNT
+            </button>
           )}
         </div>
       </div>
