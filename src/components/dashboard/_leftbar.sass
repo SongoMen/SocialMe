@@ -8,7 +8,16 @@
     padding: 20px 0
     min-width: 45px
     position: relative
-
+    transition: all .6s
+    h4
+      display: none
+    &.active
+      width: 8%
+      svg
+        width: 25px
+        margin-right: 20px
+      h4
+        display: block
     svg
         stroke: $inactive-color
         width: 40%
@@ -25,7 +34,7 @@
             justify-content: center
             min-height: 40px
             svg
-                width: 40%
+                width: 25px
                 cursor: pointer
     &__logout
         position: absolute

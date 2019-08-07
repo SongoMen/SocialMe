@@ -23,11 +23,12 @@ const Leftbar = () => {
     btn.addEventListener("click", function() {
       this.classList.toggle("activeMenu");
       this.classList.toggle("not-active");
+      document.getElementById("leftbar").classList.toggle("active")
     });
   }, 500);
 
   return (
-    <div className="leftbar">
+    <div className="leftbar" id="leftbar">
         <div className="menu not-active">
           <span />
           <span />
@@ -47,6 +48,7 @@ const Leftbar = () => {
           >
             <path d="M21.21 15.89A10 10 0 118 2.83M22 12A10 10 0 0012 2v10z" />
           </svg>
+          <h4>Dashboard</h4>
         </li>
       </ul>
       <svg
