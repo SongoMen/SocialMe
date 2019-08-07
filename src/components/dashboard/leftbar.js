@@ -10,7 +10,7 @@ const Leftbar = () => {
     ) {
       document.getElementById(sectionName.toLowerCase()).style.borderLeft =
         "2px solid #d31027";
-      document.getElementsByTagName("svg")[1].style.stroke = "#d31027";
+      document.getElementsByTagName("svg")[0].style.stroke = "#d31027";
     }
   }
   setTimeout(() => {
