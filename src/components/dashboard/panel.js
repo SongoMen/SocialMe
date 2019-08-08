@@ -299,7 +299,7 @@ class Panel extends React.Component {
           )}
           {this.props.panel === "nothing" && (
             <h3 className="error">
-              Please first choose an account at the top right corner.
+              Please first choose or add an account at the top right corner.
             </h3>
           )}
           {this.props.panel === "facebook" &&
