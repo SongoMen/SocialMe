@@ -104,7 +104,7 @@ class Panel extends React.Component {
           console.log("Error getting document:", error);
         });
     } else if (
-      this.props.instagramInfo < goal &&
+      this.props.instagramInfo.followed_by < goal &&
       this.props.type === "instagram"
     ) {
       firebase
@@ -201,8 +201,22 @@ class Panel extends React.Component {
                       </g>
                     </g>
                   </svg>
-                  <h1>{this.props.instagramInfo}</h1>
+                  <h1>{this.props.instagramInfo.followed_by}</h1>
                   <h4>Total Followers</h4>
+                </div>
+                <div className="box">
+                  <svg
+                    className="icon media"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <g>
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M11.27 12.216L15 6l8 15H2L9 8l2.27 4.216zm1.12 2.022L14.987 19h4.68l-4.77-8.942-2.507 4.18zM5.348 19h7.304L9 12.219 5.348 19zM5.5 8a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" />
+                    </g>
+                  </svg>
+                  <h1>{this.props.instagramInfo.media}</h1>
+                  <h4>Total posted media</h4>
                 </div>
                 <div className="box">
                   {this.state.goal === "" && (
@@ -263,7 +277,8 @@ class Panel extends React.Component {
                       </svg>
                       <h1>{this.state.goal}</h1>
                       <h4>
-                        You are {this.state.goal - this.props.instagramInfo}{" "}
+                        You are{" "}
+                        {this.state.goal - this.props.instagramInfo.followed_by}{" "}
                         likes away from your goal !
                       </h4>
                     </div>

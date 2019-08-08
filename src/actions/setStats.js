@@ -38,7 +38,7 @@ export function getDataInstagram(token) {
       .then(res => res.json())
       .then(result => {
         if (result.data.counts.followed_by !== undefined)
-          dispatch(getDataDoneInstagram(result.data.counts.followed_by));
+          dispatch(getDataDoneInstagram(result.data.counts));
       })
       .catch(error => {
         // set state for error
