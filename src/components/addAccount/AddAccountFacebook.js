@@ -20,8 +20,8 @@ const AddAccountFacebook = () => {
       .then(result => {
         for (let i = 0; i < result.data.length; i++) {
           pagesNames[i] = result.data[i].name;
-          pagesTokes[i] = result.data[i].access_token;
           pagesId[i] = result.data[i].id;
+          getToken(result.data[i].id,result.data[i].access_token,i)
         }
       })
       .then(() => {
@@ -52,6 +52,16 @@ const AddAccountFacebook = () => {
         );
       }
     }
+  }
+  function getToken(id,token,i){
+    fetch(
+      `https://graph.facebook.com/v4.0/${id}?fields=access_token&access_token=${token}`
+    )
+    .then(res=>res.json())
+    .then(result=>{
+      pagesTokes[i] = result.access_token;
+
+    })
   }
   function buttonDashboard() {
     window.location.href = "/dashboard";
