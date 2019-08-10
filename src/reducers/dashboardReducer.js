@@ -12,7 +12,7 @@ export default (state, action) => {
       case panelactions.SET_USERNAME:
           return { ...state, name: action.payload };
     case actions.GET_DATA_REQUESTED:
-      return { ...state, isError: false, isLoading: true };
+      return { ...state, isError: false, isLoading: true};
     case actions.GET_DATA_DONE_FACEBOOK:
       return { ...state, isError: false, isLoading: false, facebookInfo: action.payload };
     case actions.GET_DATA_DONE_INSTAGRAM:

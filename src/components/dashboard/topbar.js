@@ -1,10 +1,10 @@
 import React from "react";
 import firebase from "firebase/app";
 import Cookies from "universal-cookie";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 
-import { setPanel, setAcces, setType, setUser } from "../../actions/setPanel";
-import { getDataInstagram, getDataFacebook } from "../../actions/setStats";
+import {setPanel, setAcces, setType, setUser} from "../../actions/setPanel";
+import {getDataInstagram, getDataFacebook} from "../../actions/setStats";
 
 let profilePictures = [];
 let usernames = [];
@@ -14,11 +14,11 @@ let pagesId = [];
 
 let status;
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setPanel: () => dispatch(setPanel(status)),
   getDataInstagram: () =>
     dispatch(
@@ -67,8 +67,8 @@ class Topbar extends React.Component {
       .doc(user)
       .collection("accounts")
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           profilePictures[i] = doc.data()["profilePicture"];
           usernames[i] = doc.data()["username"];
           type[i] = doc.data()["social"];
@@ -120,34 +120,45 @@ class Topbar extends React.Component {
       this.props.setPanel();
     }
     setTimeout(() => {
-    if(!usernames.includes(cookies.get("account"))){
-      status = "nothing";
-      this.props.setPanel();
-    }
-  }, 2000);
+      if (!usernames.includes(cookies.get("account"))) {
+        status = "nothing";
+        this.props.setPanel();
+      }
+    }, 2000);
 
     this.getAccounts();
   }
   handleCheck(e) {
-    cookies.set("account", e.currentTarget.id, { path: "/" });
-    this.getAccounts();
-    setTimeout(() => {
-      this.props.setAcces();
-      this.props.setType();
-      this.props.setUser();
-    }, 500);
+    cookies.set("account", e.currentTarget.id, {path: "/"});
+    this.setState(
+      {
+        account: cookies.get("account")
+      },
+      () => {
+        this.props.setAcces();
+        this.props.setType();
+        this.props.setUser();
 
-    if (type[usernames.indexOf(cookies.get("account"))] === "instagram")
-      this.props.getDataInstagram();
-    else if (type[usernames.indexOf(cookies.get("account"))] === "facebook")
-      this.props.getDataFacebook();
-    /* fetch(
-      `https://api.instagram.com/v1/users/self/media/recent/?access_token=${
-        accessTokens[usernames.indexOf(cookies.get("account"))]
-      }`
-    )
-      .then((res) => res.json())
-      .then((result) => console.log(result));*/
+        status = type[usernames.indexOf(cookies.get("account"))];
+        this.props.setPanel();
+
+        if (type[usernames.indexOf(cookies.get("account"))] === "instagram")
+          this.props.getDataInstagram();
+        else if (type[usernames.indexOf(cookies.get("account"))] === "facebook")
+          this.props.getDataFacebook();
+        var elems = document.querySelectorAll("ul .active");
+        [].forEach.call(elems, function(el) {
+          el.className = el.className.replace(/active\b/, "");
+        });
+
+        this.setState({
+          loader: true
+        });
+
+        if (document.getElementById(this.state.account) !== null)
+          document.getElementById(this.state.account).classList.add("active");
+      }
+    );
   }
 
   render() {
@@ -165,7 +176,7 @@ class Topbar extends React.Component {
               className="popup__close"
               viewBox="0 0 24 24"
               onClick={function() {
-                this.setState({ popup: false });
+                this.setState({popup: false});
               }.bind(this)}
             >
               <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
