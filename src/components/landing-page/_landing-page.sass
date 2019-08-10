@@ -10,11 +10,15 @@
         justify-content: center
         align-items: center
         flex-direction: column
+        @media screen and (max-width: 830px)
+            padding: 5px
         img
-            margin-bottom: -150px
+            margin-bottom: -120px
             margin-top: 60px
             max-width: 1200px
             width: 100%
+            @media screen and (max-width: 530px)
+                display: none
         &__header
             display: flex
             justify-content: center

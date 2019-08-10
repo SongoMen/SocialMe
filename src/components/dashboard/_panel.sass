@@ -4,9 +4,11 @@
     flex-direction: column
     background-color: $panel-background-color
     overflow: hidden
+    @media only screen and (max-width: 900px) 
+        overflow: auto
     .delete
         font-size: 10px
-        position: absolute
+        position: fixed
         right: 50px
         bottom: 30px
     .panel-container
@@ -15,7 +17,7 @@
         width: 100%
         position: relative
         transition: all .3s
-        @media only screen and (max-width: 1050px) 
+        @media only screen and (max-width: 1100px) 
             padding: 10px 20px
         @media only screen and (max-width: 650px) 
             padding: 0
@@ -31,7 +33,7 @@
         .instagram,.facebook
             width: 100%
             height: 100%
-            @media only screen and (max-width: 650px) 
+            @media only screen and (max-width: 665px) 
                 display: flex
                 justify-content: center
                 align-items: center
@@ -43,9 +45,10 @@
                 justify-content: space-between
                 align-items: center
                 flex-wrap: wrap
-                @media only screen and (max-width: 650px) 
-                    height: 100%
+                @media only screen and (max-width: 920px) 
                     justify-content: center
+                @media only screen and (max-width: 665px) 
+                    height: 100%
     .box
         width: 30%
         height: 100%
@@ -61,7 +64,9 @@
         position: relative
         cursor: pointer
         margin-bottom: 20px
-        @media only screen and (max-width: 650px) 
+        @media only screen and (max-width: 540px) 
+            margin-right: 0
+        @media only screen and (max-width: 665px) 
             height: 44%
         &:last-child
             margin-right: 0
