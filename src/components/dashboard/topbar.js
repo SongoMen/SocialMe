@@ -189,7 +189,7 @@ class Topbar extends React.Component {
                 className="btn instagram"
                 onClick={() =>
                   (window.location.href =
-                    "https://api.instagram.com/oauth/authorize/?client_id=c3ef63a1c9de41a1b6032a7c39e586ae&redirect_uri=https://socialanalytics-94264.web.app/addaccountinstagram&response_type=token&instagram&scope=public_content")
+                    "https://api.instagram.com/oauth/authorize/?client_id=c3ef63a1c9de41a1b6032a7c39e586ae&redirect_uri=https://socialanalytics-94264.web.app/addaccountinstagram&response_type=token&instagram")
                 }
               >
                 Instagram

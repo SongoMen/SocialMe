@@ -9,28 +9,58 @@ const AddAccountInstagram = () => {
     fetch(
       `https://api.instagram.com/v1/users/self/?access_token=${access_token}`
     )
-      .then(res => res.json())
-      .then(result => {
+      .then((res) => res.json())
+      .then((result) => {
         firebase
           .firestore()
           .collection("users")
           .doc(user)
           .collection("accounts")
           .doc(result.data.username)
-          .set({
-            accessToken: access_token,
-            profilePicture: result.data.profile_picture,
-            username: result.data.username,
-            social: "instagram"
-          })
-          .then(() => {
-            window.location.href = "/dashboard";
-          })
-          .catch(error => {
-            console.log("Error getting document:", error);
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              firebase
+                .firestore()
+                .collection("users")
+                .doc(user)
+                .collection("accounts")
+                .doc(result.data.username)
+                .update({
+                  accessToken: access_token,
+                  profilePicture: result.data.profile_picture,
+                  username: result.data.username,
+                  social: "instagram"
+                })
+                .then(() => {
+                  window.location.href = "/dashboard";
+                })
+                .catch((error) => {
+                  console.log("Error getting document:", error);
+                });
+            } else {
+              firebase
+                .firestore()
+                .collection("users")
+                .doc(user)
+                .collection("accounts")
+                .doc(result.data.username)
+                .set({
+                  accessToken: access_token,
+                  profilePicture: result.data.profile_picture,
+                  username: result.data.username,
+                  social: "instagram"
+                })
+                .then(() => {
+                  window.location.href = "/dashboard";
+                })
+                .catch((error) => {
+                  console.log("Error getting document:", error);
+                });
+            }
           });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }
   return (
     <div className="addAccount">
