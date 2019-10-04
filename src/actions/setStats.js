@@ -47,7 +47,7 @@ export function getDataInstagram(token) {
   };
 }
 
-export function getDataFacebook(id,token) {
+export function getDataFacebook(id, token) {
   return dispatch => {
     // set state to "loading"
     dispatch(getDataRequested());
@@ -56,9 +56,11 @@ export function getDataFacebook(id,token) {
     )
       .then(res => res.json())
       .then(result => {
-        if (result.insights !== undefined)
+        if (result.insights !== undefined) {
           dispatch(getDataDoneFacebook(result.insights.data));
-        else dispatch(getDataFailed("err"));
+        } else {
+          dispatch(getDataFailed("err"));
+        }
       })
       .catch(error => {
         // set state for error

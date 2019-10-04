@@ -5,7 +5,7 @@ const Leftbar = () => {
     let splitSection = window.location.href.split("/");
     let sectionName = splitSection[splitSection.length - 1];
     if (
-      document.getElementById(sectionName.toLowerCase()) !== undefined &&
+      typeof document.getElementById(sectionName.toLowerCase()) !== "undefined" &&
       sectionName.toLowerCase() === "dashboard"
     ) {
       document.getElementById(sectionName.toLowerCase()).style.borderLeft =

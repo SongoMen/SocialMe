@@ -211,14 +211,14 @@ class Topbar extends React.Component {
             {profilePictures.map((val, indx) => (
               <li
                 key={indx}
-                id={usernames[indx]}
+                id={usernames[parseInt(indx)]}
                 className={indx}
                 onClick={this.handleCheck.bind(this)}
               >
                 <div className="topbar__list">
-                  <img src={val} alt={usernames[indx]} />
+                  <img src={val} alt={usernames[parseInt(indx)]} />
                   <span className="topbar__icon">
-                    {type[indx] === "instagram" && (
+                    {type[parseInt(indx)] === "instagram" && (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 64 64"
@@ -260,7 +260,7 @@ class Topbar extends React.Component {
                         />
                       </svg>
                     )}
-                    {type[indx] === "facebook" && (
+                    {type[parseInt(indx)] === "facebook" && (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -271,7 +271,7 @@ class Topbar extends React.Component {
                         </g>
                       </svg>
                     )}
-                    {type[indx] === "twitter" && (
+                    {type[parseInt(indx)] === "twitter" && (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"

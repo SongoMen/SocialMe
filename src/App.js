@@ -50,7 +50,6 @@ class App extends Component {
   state = {
     authed: false,
     loading: true,
-    theme: ""
   };
   componentDidMount() {
     this.removeListener = firebaseAuth().onAuthStateChanged(user => {
@@ -71,33 +70,7 @@ class App extends Component {
     this.removeListener();
   }
 
-  componentWillMount() {
-    let theme = localStorage.getItem("theme");
-    if (
-      window.location.href.split("/")[
-        window.location.href.split("/").length - 1
-      ] !== ""
-    ) {
-      if (theme !== null)
-        this.setState({
-          theme: theme
-        });
-      else
-        this.setState({
-          theme: "dark"
-        });
-    }
-  }
-
   render() {
-    if (this.state.theme === "light") {
-      localStorage.setItem("theme", "light");
-      document.getElementById("root").classList.add("light");
-    }
-    if (this.state.theme === "dark") {
-      localStorage.setItem("theme", "dark");
-      document.getElementById("root").classList.remove("light");
-    }
     return this.state.loading ? (
       <svg width="38" height="38" viewBox="0 0 38 38" stroke="#fff">
         <g fill="none" fillRule="evenodd">
