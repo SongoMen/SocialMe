@@ -82,9 +82,9 @@ class Topbar extends React.Component {
           typeof this.state.account !== "undefined" &&
           this.state.account !== null
         ) {
-          if (type[usernames.indexOf(cookies.get("account"))] === "instagram")
+          if (type[usernames.indexOf(cookies.get("account"))] === "instagram") {
             this.props.getDataInstagram();
-          else if (
+          } else if (
             type[usernames.indexOf(cookies.get("account"))] === "facebook"
           ) {
             this.props.getDataFacebook();

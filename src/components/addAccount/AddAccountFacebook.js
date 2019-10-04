@@ -48,31 +48,6 @@ const AddAccountFacebook = () => {
         setError(true);
       });
   }
-  function handleClick(e) {
-    if (document.getElementById(e.currentTarget.id).classList[0] !== "active") {
-      document.getElementById(e.currentTarget.id).classList.add("active");
-    } else {
-      document.getElementById(e.currentTarget.id).classList.remove("active");
-    }
-    if (document.querySelectorAll(".active").length > 0){
-      setStaus("activeButton");
-    }
-    else {setStaus("inactive");}
-  }
-  function buttonClick() {
-    if (document.querySelectorAll(".active").length > 0) {
-      for (let i = 0; i < document.querySelectorAll(".active").length; i++) {
-        addInformations(
-          pagesId.indexOf(document.querySelectorAll(".active")[parseInt(i)].id),
-          document.querySelectorAll(".active")[parseInt(i)].id
-        );
-      }
-    }
-  }
-
-  function buttonDashboard() {
-    window.location.href = "/dashboard";
-  }
   function addInformations(i, id) {
     fetch(
       `https://graph.facebook.com/v4.0/${id}/picture?access_token=${access_token}&format=json&method=get&pretty=0&redirect=false&suppress_http_code=1&transport=cors`
@@ -130,6 +105,31 @@ const AddAccountFacebook = () => {
           });
       });
   }
+  function handleClick(e) {
+    if (document.getElementById(e.currentTarget.id).classList[0] !== "active") {
+      document.getElementById(e.currentTarget.id).classList.add("active");
+    } else {
+      document.getElementById(e.currentTarget.id).classList.remove("active");
+    }
+    if (document.querySelectorAll(".active").length > 0){
+      setStaus("activeButton");
+    }
+    else {setStaus("inactive");}
+  }
+  function buttonClick() {
+    if (document.querySelectorAll(".active").length > 0) {
+      for (let i = 0; i < document.querySelectorAll(".active").length; i++) {
+        addInformations(
+          pagesId.indexOf(document.querySelectorAll(".active")[parseInt(i)].id),
+          document.querySelectorAll(".active")[parseInt(i)].id
+        );
+      }
+    }
+  }
+
+  function buttonDashboard() {
+    window.location.href = "/dashboard";
+  }
   return (
     <div className="addAccount">
       {error === true && (
@@ -146,7 +146,7 @@ const AddAccountFacebook = () => {
           <h2>Choose Pages to add</h2>
           {pagesNames.map((val, index) => {
             return (
-              <h3 onClick={handleClick} key={index} id={pagesId[index]}>
+              <h3 onClick={handleClick} key={index} id={pagesId[parseInt(index)]}>
                 {val}
               </h3>
             );

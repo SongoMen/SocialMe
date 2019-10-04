@@ -37,7 +37,7 @@ export function auth(email, pw) {
       return firebase.auth().currentUser.updateProfile({
         displayName: username
       });
-    })
+    });
 
 }
 

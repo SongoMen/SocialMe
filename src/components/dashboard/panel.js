@@ -97,7 +97,7 @@ class Panel extends React.Component {
         .collection("accounts")
         .doc(this.props.name)
         .update({
-          goal: goal
+          goal
         })
         .then(() => {
           this.checkGoal();
@@ -153,7 +153,7 @@ class Panel extends React.Component {
               .collection("accounts")
               .doc(this.props.name)
               .update({
-                goal: undefined
+                goal: "undefined"
               })
               .catch(error => {
                 console.log("Error getting document:", error);
