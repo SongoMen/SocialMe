@@ -1,7 +1,7 @@
-import React from "react"
+import React from "react";
 
-import Leftbar from "./leftbar"
-import Panel from "./panel"
+import Leftbar from "./leftbar";
+import Panel from "./panel";
 
 class Dashboard extends React.Component{
     render(){

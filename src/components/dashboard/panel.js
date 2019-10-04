@@ -24,7 +24,7 @@ class Panel extends React.Component {
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.facebookInfo !== this.props.facebookInfo) {
-      if (this.props.facebookInfo.length > 0)
+      if (this.props.facebookInfo.length > 0) {
         this.setState({
           likes: this.props.facebookInfo[0].values[
             this.props.facebookInfo[0].values.length - 1
@@ -33,6 +33,7 @@ class Panel extends React.Component {
             this.props.facebookInfo[4].values.length - 1
           ].value
         });
+      }
     }
     if (prevProps.name !== this.props.name) {
       setTimeout(() => {
@@ -51,7 +52,7 @@ class Panel extends React.Component {
 
   getGoal() {
     let user = firebase.auth().currentUser.uid;
-    if (this.props.name !== undefined) {
+    if (typeof this.props.name !== "undefined") {
       firebase
         .firestore()
         .collection("users")
@@ -61,9 +62,9 @@ class Panel extends React.Component {
         .get()
         .then(doc => {
           if (
-            doc.data() !== undefined &&
+            typeof doc.data() !== "undefined" &&
             doc.data()["goal"] !== "" &&
-            doc.data()["goal"] !== undefined
+            typeof doc.data()["goal"] !== "undefined"
           ) {
             this.setState({
               goal: doc.data()["goal"]
@@ -115,7 +116,7 @@ class Panel extends React.Component {
         .collection("accounts")
         .doc(this.props.name)
         .update({
-          goal: goal
+          goal
         })
         .then(() => {
           this.checkGoal();

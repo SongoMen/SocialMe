@@ -37,8 +37,9 @@ export function getDataInstagram(token) {
     fetch(`https://api.instagram.com/v1/users/self/?access_token=${token}`)
       .then(res => res.json())
       .then(result => {
-        if (result.data.counts.followed_by !== undefined)
+        if (typeof result.data.counts.followed_by !== "undefined"){
           dispatch(getDataDoneInstagram(result.data.counts));
+        }
       })
       .catch(error => {
         // set state for error
@@ -56,7 +57,7 @@ export function getDataFacebook(id, token) {
     )
       .then(res => res.json())
       .then(result => {
-        if (result.insights !== undefined) {
+        if (typeof result.insights !== "undefined") {
           dispatch(getDataDoneFacebook(result.insights.data));
         } else {
           dispatch(getDataFailed("err"));

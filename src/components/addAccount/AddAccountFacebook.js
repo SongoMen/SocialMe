@@ -40,8 +40,8 @@ const AddAccountFacebook = () => {
         }
       })
       .then(() => {
-        if (pagesNames.length > 0) setPopup(true);
-        else setPopup("error");
+        if (pagesNames.length > 0) {setPopup(true);}
+        else {setPopup("error");}
       })
       .catch(err => {
         console.log(err);
