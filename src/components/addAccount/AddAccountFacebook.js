@@ -12,6 +12,17 @@ const AddAccountFacebook = () => {
   const [popup, setPopup] = useState(false);
   const [buttonStatus, setStaus] = useState("inactive");
   const [error, setError] = useState(false);
+
+  function getToken(id, token, i) {
+    fetch(
+      `https://graph.facebook.com/v4.0/${id}?fields=access_token&access_token=${token}`
+    )
+      .then(res => res.json())
+      .then(result => {
+        pagesTokes[parseInt(i)] = result.access_token;
+      });
+  }
+
   if (window.location.href.includes("access_token")) {
     fetch(
       `https://graph.facebook.com/v4.0/me/accounts?access_token=${access_token}&debug=all&format=json&method=get&pretty=0&suppress_http_code=1&transport=cors`
@@ -19,9 +30,13 @@ const AddAccountFacebook = () => {
       .then(res => res.json())
       .then(result => {
         for (let i = 0; i < result.data.length; i++) {
-          pagesNames[i] = result.data[i].name;
-          pagesId[i] = result.data[i].id;
-          getToken(result.data[i].id,result.data[i].access_token,i)
+          pagesNames[parseInt(i)] = result.data[parseInt(i)].name;
+          pagesId[parseInt(i)] = result.data[parseInt(i)].id;
+          getToken(
+            result.data[parseInt(i)].id,
+            result.data[parseInt(i)].access_token,
+            i
+          );
         }
       })
       .then(() => {
@@ -39,30 +54,22 @@ const AddAccountFacebook = () => {
     } else {
       document.getElementById(e.currentTarget.id).classList.remove("active");
     }
-    if (document.querySelectorAll(".active").length > 0)
+    if (document.querySelectorAll(".active").length > 0){
       setStaus("activeButton");
-    else setStaus("inactive");
+    }
+    else {setStaus("inactive");}
   }
   function buttonClick() {
     if (document.querySelectorAll(".active").length > 0) {
       for (let i = 0; i < document.querySelectorAll(".active").length; i++) {
         addInformations(
-          pagesId.indexOf(document.querySelectorAll(".active")[i].id),
-          document.querySelectorAll(".active")[i].id
+          pagesId.indexOf(document.querySelectorAll(".active")[parseInt(i)].id),
+          document.querySelectorAll(".active")[parseInt(i)].id
         );
       }
     }
   }
-  function getToken(id,token,i){
-    fetch(
-      `https://graph.facebook.com/v4.0/${id}?fields=access_token&access_token=${token}`
-    )
-    .then(res=>res.json())
-    .then(result=>{
-      pagesTokes[i] = result.access_token;
 
-    })
-  }
   function buttonDashboard() {
     window.location.href = "/dashboard";
   }
@@ -72,7 +79,7 @@ const AddAccountFacebook = () => {
     )
       .then(res => res.json())
       .then(result => {
-        pagesProfiles[i] = result.data.url;
+        pagesProfiles[parseInt(i)] = result.data.url;
       })
       .then(() => {
         firebase
@@ -80,7 +87,7 @@ const AddAccountFacebook = () => {
           .collection("users")
           .doc(user)
           .collection("accounts")
-          .doc(pagesNames[i])
+          .doc(pagesNames[parseInt(i)])
           .get()
           .then(doc => {
             if (doc.exists) {
@@ -89,15 +96,15 @@ const AddAccountFacebook = () => {
                 .collection("users")
                 .doc(user)
                 .collection("accounts")
-                .doc(pagesNames[i])
+                .doc(pagesNames[parseInt(i)])
                 .update({
-                  accessToken: pagesTokes[i],
-                  profilePicture: pagesProfiles[i],
-                  username: pagesNames[i],
+                  accessToken: pagesTokes[parseInt(i)],
+                  profilePicture: pagesProfiles[parseInt(i)],
+                  username: pagesNames[parseInt(i)],
                   social: "facebook",
-                  id: pagesId[i]
+                  id: pagesId[parseInt(i)]
                 })
-                .then(()=>buttonDashboard())
+                .then(() => buttonDashboard())
                 .catch(error => {
                   console.log("Error getting document:", error);
                 });
@@ -107,15 +114,15 @@ const AddAccountFacebook = () => {
                 .collection("users")
                 .doc(user)
                 .collection("accounts")
-                .doc(pagesNames[i])
+                .doc(pagesNames[parseInt(i)])
                 .set({
-                  accessToken: pagesTokes[i],
-                  profilePicture: pagesProfiles[i],
-                  username: pagesNames[i],
+                  accessToken: pagesTokes[parseInt(i)],
+                  profilePicture: pagesProfiles[parseInt(i)],
+                  username: pagesNames[parseInt(i)],
                   social: "facebook",
-                  id: pagesId[i]
+                  id: pagesId[parseInt(i)]
                 })
-                .then(()=>buttonDashboard())
+                .then(() => buttonDashboard())
                 .catch(error => {
                   console.log("Error getting document:", error);
                 });

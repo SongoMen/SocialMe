@@ -69,11 +69,11 @@ class Topbar extends React.Component {
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
-          profilePictures[i] = doc.data()["profilePicture"];
-          usernames[i] = doc.data()["username"];
-          type[i] = doc.data()["social"];
-          accessTokens[i] = doc.data()["accessToken"];
-          pagesId[i] = doc.data()["id"];
+          profilePictures[parseInt(i)] = doc.data()["profilePicture"];
+          usernames[parseInt(i)] = doc.data()["username"];
+          type[parseInt(i)] = doc.data()["social"];
+          accessTokens[parseInt(i)] = doc.data()["accessToken"];
+          pagesId[parseInt(i)] = doc.data()["id"];
           i++;
         });
       })
