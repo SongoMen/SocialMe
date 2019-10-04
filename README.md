@@ -1,10 +1,9 @@
 Informations about all social media in one app
 
-Tech:
+Technology stack:
 - React
 - Firebase
 - react-router
-- hooks
 - redux
 - redux-thunk
 - node-sass

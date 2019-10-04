@@ -182,7 +182,7 @@ class Panel extends React.Component {
       <div className="panel">
         <Topbar />
         <div className="panel-container">
-          {this.props.panel === "instagram" && this.props.isLoading === false && (
+          {this.props.panel === "instagram" && this.props.isLoading === false && this.props.instagramInfo.followed_by !== "" && (
             <div className="instagram">
               <h1>Instagram Overview</h1>
               <div className="instagram__row">
