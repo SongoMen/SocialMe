@@ -1,5 +1,3 @@
-Informations about all social media in one app
-
 Technology stack:
 - React
 - Firebase
