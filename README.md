@@ -6,7 +6,7 @@
   SocialMe</h1>
 </div>
 
-  Application where you can connect your social accounts and see your statistics.  
+  Application where you can connect your facebook and instagram account and see your statistics of instagram account or multiple facebook pages.  
   <br>
 
 Technology stack:
