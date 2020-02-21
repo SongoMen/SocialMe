@@ -83,7 +83,7 @@ class Panel extends React.Component {
         "https://api.instagram.com/oauth/authorize/?client_id=c3ef63a1c9de41a1b6032a7c39e586ae&redirect_uri=https://socialanalytics-94264.web.app/addaccountinstagram&response_type=token&instagram&scope=public_content";
     } else if (this.props.type === "facebook") {
       window.location.href =
-        "https://www.facebook.com/v4.0/dialog/oauth?response_type=token&client_id=2072731952831318&redirect_uri=https://socialanalytics-94264.web.app/addaccountfacebook&auth_type=rerequest&scope=public_profile%2Cmanage_pages%2Cpages_messaging%2Cpages_show_list%2Cread_insights%2Cread_audience_network_insights%2Cpages_manage_cta";
+        "https://www.facebook.com/v4.0/dialog/oauth?response_type=token&client_id=2072731952831318&redirect_uri=https://socialanalytics-94264.web.app/addaccountfacebook&auth_type=rerequest&scope=public_profile%2Cmanage_pages%2Cpages_messaging%2Cpages_show_list%2Cread_insights%2Cpages_manage_cta";
     }
   }
   setGoalFacebook() {
