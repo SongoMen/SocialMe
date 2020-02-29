@@ -16,7 +16,7 @@ Technology stack:
 - Redux
 - redux-thunk
 - Sass
-- cookies
+
 ## Running
 
 1. Go to project directory and run:
