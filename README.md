@@ -17,6 +17,7 @@ Technology stack:
 - redux-thunk
 - Sass
 
+
 ## Running
 
 1. Go to project directory and run:
